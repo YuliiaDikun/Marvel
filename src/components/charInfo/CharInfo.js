@@ -23,6 +23,7 @@ class CharInfo extends Component {
       this.updateChar();
     }
   }
+
   onError = () => {
     this.setState({ loading: false, error: true });
   };
