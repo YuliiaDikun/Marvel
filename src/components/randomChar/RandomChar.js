@@ -21,12 +21,16 @@ class RandomChar extends Component {
   onError = () => {
     this.setState({ loading: false, error: true });
   };
+  onCharLoading = () => {
+    this.setState({ loading: true });
+  };
   onCharLoaded = (char) => {
     this.setState({ char, loading: false });
   };
 
   updateChar = () => {
     const id = Math.floor(Math.random() * (1011400 - 1011000) + 1011000);
+    this.onCharLoading();
     this.marvelApi.getCharacter(id).then(this.onCharLoaded).catch(this.onError);
   };
   render() {

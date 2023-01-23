@@ -3,13 +3,13 @@ import Spinner from "../spinner/Spinner";
 import MarvelService from "../../services/api";
 import Error from "../error/Error";
 import "./charList.scss";
-import abyss from "../../resources/img/abyss.jpg";
 
 class CharList extends Component {
   state = {
     characters: [],
     loading: true,
     onError: null,
+    page: 1,
   };
   marvelChar = new MarvelService();
   componentDidMount() {
@@ -33,14 +33,32 @@ class CharList extends Component {
 
     const errorMessage = error ? <Error /> : null;
     const spinner = loading ? <Spinner /> : null;
-    const content = !(loading || error) ? (
-      <Char characters={characters} />
-    ) : null;
     return (
       <div className="char__list">
         {errorMessage}
         {spinner}
-        {content}
+        {!(loading || error) ? (
+          <ul className="char__grid">
+            {characters.map((char) => (
+              <li
+                key={char.id}
+                onClick={() => this.props.onCharSelected(char.id)}
+                className="char__item"
+              >
+                <img
+                  src={char.thumbnail}
+                  alt={char.name}
+                  style={
+                    char.thumbnail.includes("image_not_available")
+                      ? { objectFit: "unset" }
+                      : { objectFit: "cover" }
+                  }
+                />
+                <div className="char__name">{char.name}</div>
+              </li>
+            ))}
+          </ul>
+        ) : null}
         <button className="button button__main button__long">
           <div className="inner">load more</div>
         </button>
@@ -50,24 +68,3 @@ class CharList extends Component {
 }
 
 export default CharList;
-
-const Char = ({ characters }) => {
-  return (
-    <ul className="char__grid">
-      {characters.map((char) => (
-        <li key={char.name} className="char__item">
-          <img
-            src={char.thumbnail}
-            alt={char.name}
-            style={
-              char.thumbnail.includes("image_not_available")
-                ? { objectFit: "contain" }
-                : { objectFit: "cover" }
-            }
-          />
-          <div className="char__name">{char.name}</div>
-        </li>
-      ))}
-    </ul>
-  );
-};
