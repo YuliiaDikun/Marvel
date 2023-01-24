@@ -53,6 +53,17 @@ class CharList extends Component {
     }));
   };
 
+  itemRefs = [];
+
+  setRef = (ref) => {
+    this.itemRefs.push(ref);
+  };
+  onSelectedRef = (id) => {
+    this.itemRefs.forEach((item) =>
+      item.classList.remove("char__item_selected")
+    );
+    this.itemRefs[id].classList.add("char__item_selected");
+  };
   render() {
     const { loading, characters, error, newItemLoading, offset, charEnded } =
       this.state;
@@ -65,10 +76,14 @@ class CharList extends Component {
         {spinner}
         {!(loading || error) ? (
           <ul className="char__grid">
-            {characters.map((char) => (
+            {characters.map((char, i) => (
               <li
                 key={char.id}
-                onClick={() => this.props.onCharSelected(char.id)}
+                ref={this.setRef}
+                onClick={() => {
+                  this.props.onCharSelected(char.id);
+                  this.onSelectedRef(i);
+                }}
                 className="char__item"
               >
                 <img
