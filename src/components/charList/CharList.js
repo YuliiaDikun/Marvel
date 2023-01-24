@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import { Component } from "react";
 import Spinner from "../spinner/Spinner";
 import MarvelService from "../../services/api";
@@ -5,6 +6,9 @@ import Error from "../error/Error";
 import "./charList.scss";
 
 class CharList extends Component {
+  static defaultProps = {
+    onCharSelected: PropTypes.func,
+  };
   state = {
     characters: [],
     loading: true,

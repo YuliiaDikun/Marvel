@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import "./charInfo.scss";
 import Error from "../error/Error";
 import Spinner from "../spinner/Spinner";
@@ -6,6 +7,9 @@ import MarvelService from "../../services/api";
 import { Component } from "react";
 
 class CharInfo extends Component {
+  static defaultProps = {
+    charId: PropTypes.number,
+  };
   state = {
     char: null,
     loading: false,
@@ -64,7 +68,6 @@ class CharInfo extends Component {
 
 const View = ({ char }) => {
   const { name, description, thumbnail, homepage, wiki, comics } = char;
-  console.log(comics);
   return (
     <>
       <div className="char__basics">
@@ -110,5 +113,14 @@ const View = ({ char }) => {
     </>
   );
 };
-
+View.propTypes = {
+  char: PropTypes.shape({
+    name: PropTypes.string,
+    description: PropTypes.string,
+    thumbnail: PropTypes.string,
+    homepage: PropTypes.string,
+    wiki: PropTypes.string,
+    comics: PropTypes.array,
+  }),
+};
 export default CharInfo;

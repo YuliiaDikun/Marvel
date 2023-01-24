@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import { Component } from "react";
 import Spinner from "../spinner/Spinner";
 import MarvelService from "../../services/api";
@@ -89,5 +90,13 @@ const View = ({ char }) => {
     </div>
   );
 };
-
+View.propTypes = {
+  char: PropTypes.shape({
+    name: PropTypes.string,
+    description: PropTypes.string,
+    thumbnail: PropTypes.string,
+    homepage: PropTypes.string,
+    wiki: PropTypes.string,
+  }),
+};
 export default RandomChar;
